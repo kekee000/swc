@@ -8,7 +8,7 @@ env:
 on:
   create:
     tags:
-      - v*
+      - will-not-run*
 
 jobs:
   publish-node:
