@@ -367,47 +367,47 @@ jobs:
   #           apk add nodejs npm yarn
   #           DISABLE_PLUGIN_E2E_TESTS=true yarn test
   # test-linux-arm-gnueabihf-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
-    name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - "14"
-          - "16"
-          - "18"
-    runs-on: ubuntu-latest
-    steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - uses: actions/checkout@v3
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}
-      - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
-      - name: Build TypeScript
-        run: yarn build:ts
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
-          options: "-v ${{ github.workspace }}:/build -w /build"
-          run: |
-            set -e
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test
-            ls -la
+    # if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    # name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
+    # needs:
+    #   - build
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     node:
+    #       - "14"
+    #       - "16"
+    #       - "18"
+    # runs-on: ubuntu-latest
+    # steps:
+    #   - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    #   - uses: actions/checkout@v3
+    #   - name: Download artifacts
+    #     uses: actions/download-artifact@v3
+    #     with:
+    #       name: bindings-armv7-unknown-linux-gnueabihf
+    #       path: .
+    #   - name: List packages
+    #     run: ls -R .
+    #     shell: bash
+    #   - name: Cache NPM dependencies
+    #     uses: actions/cache@v3
+    #     with:
+    #       path: node_modules
+    #       key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}
+    #   - name: Install dependencies
+    #     run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+    #   - name: Build TypeScript
+    #     run: yarn build:ts
+    #   - name: Setup and run tests
+    #     uses: addnab/docker-run-action@v3
+    #     with:
+    #       image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
+    #       options: "-v ${{ github.workspace }}:/build -w /build"
+    #       run: |
+    #         set -e
+    #         DISABLE_PLUGIN_E2E_TESTS=true yarn test
+    #         ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
