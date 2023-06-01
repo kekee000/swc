@@ -6,9 +6,10 @@ env:
   CI: "1"
 
 on:
-  create:
-    tags:
-      - will-not-run*
+  pull_request_target:
+    types:
+      - edited
+      - synchronize
 
 jobs:
   publish-node:
